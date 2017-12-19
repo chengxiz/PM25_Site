@@ -2,8 +2,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12">
-				<div class="intro animate-box fadeInUp animated text-center">
-					<h1 id="name">{{state_name}}</h1>				
+				<div class="intro animate-box fadeInUp animated text-center" >
+					<h1 id="name" style="cursor: pointer">{{state_name}}</h1>				
 				</div>
 			</div>
 		</div>		
@@ -21,18 +21,24 @@
 			<div class="col-xs-12 animate-box fadeInUp animated">				
 				{{#each cities_objs}}
 					<div class="col-md-4 animate-box fadeInUp animated" id = {{city}}>
-						<h3 class = "city" style="text-align: left;">{{city}}</h3>
+						<h3 class = "city" style="text-align: left; cursor: pointer">{{city}}</h3>
 						<div class="col-md-9 animate-box fadeInUp animated">
-							<p style="color:blue;">growth 2000-2013</p>							
+							<p style="color:blue;">growth 2000-2013:</p>							
 						</div>
 						<div class="col-md-3 animate-box fadeInUp animated">
 							<p class = "growth">{{growth_from_2000_to_2013}}</p>
 						</div>
 						<div class="col-md-9 animate-box fadeInUp animated">
-							<p style="color:blue;">population</p>							
+							<p style="color:blue;">population:</p>							
 						</div>
 						<div class="col-md-3 animate-box fadeInUp animated">
 							<p class = "pop">{{population}}</p>
+						</div>
+						<div class="col-md-9 animate-box fadeInUp animated">
+							<p style="color:blue;">rank:</p>							
+						</div>
+						<div class="col-md-3 animate-box fadeInUp animated">
+							<p class = "rank">{{rank}}</p>
 						</div>
 						<input type="hidden" class="lat" value ={{latitude}} id = "{{city}}_lat">
 						<input type="hidden" class="lon" value ={{longitude}} id = "{{city}}_lon">

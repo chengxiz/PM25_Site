@@ -24,8 +24,8 @@ var baseLayers = {
 	"Satellite": satellite
 };
 var mymap = L.map('mapid',{
-	zoom : 3,
-	center : [35, 103],
-	layers : satellite
+	zoom : 4,
+	center : [37, -95],
+	layers : grayscale
 });
 L.control.layers(baseLayers).addTo(mymap);

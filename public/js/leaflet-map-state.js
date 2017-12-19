@@ -3,8 +3,10 @@ $(document).ready(function(){
   var cities = [];
   var growth = [];
   var pop = [];
+  var rank = [];
   var lon = [];
   var lat = [];
+  var markergroup = [];
   $(".city").each(function(){
    cities.push($(this).text());
   });
@@ -14,14 +16,15 @@ $(document).ready(function(){
   $(".pop").each(function(){
    pop.push($(this).text());
   });
+  $(".rank").each(function(){
+   rank.push($(this).text());
+  });
   $(".lon").each(function(){
    lon.push($(this).val());
   });
   $(".lat").each(function(){
    lat.push($(this).val());
   });
-
-  // $(".leaflet-popup-content").css({"width": "301px", "height":"400px"});
 
   var center_lon = lon.reduce(function(p,c,i){return p+(c-p)/(i+1)},0);
   var center_lat = lat.reduce(function(p,c,i){return p+(c-p)/(i+1)},0);
@@ -60,29 +63,40 @@ $(document).ready(function(){
   for (i = 0; i < cities.length; i++){
     var m =  L.marker([lat[i], lon[i]],{
       title :cities[i]
-    }).bindTooltip(cities[i], 
+    });
+    markergroup.push(m);
+
+    m.bindTooltip(cities[i], 
     {
         permanent: true, 
-        direction: 'right'
+        direction: 'right',
+        opacity:0.75
     });
     
-    var popupContent =  '<p style="text-align:left">city:'+
+    var popupContent =  '<p style="text-align:left">city: '+
                             cities[i] +
                           '</p>'+
                           '<p style="text-align:left">population: ' + 
                             pop[i] + 
                           '</p>'+
-                          '<p style="text-align:left">grow 2000-2013:'+
+                          '<p style="text-align:left">growth :'+
                             growth[i] + 
-                          '</p>'   
+                          '</p>'  +
+                          '<p style="text-align:left">rank :'+
+                            rank[i] + 
+                          '</p>'
                         ;
     console.log(popupContent);
     m.addTo(mymap);
-    m.bindPopup(popupContent).openPopup();
+    m.bindPopup(popupContent);
   }
 
   
   L.control.layers(baseLayers).addTo(mymap);
+
+  var group = new L.featureGroup(markergroup);
+  mymap.fitBounds(group.getBounds());
+
 
   $(".city").each(function(){
    $(this).click(function(){
@@ -91,8 +105,14 @@ $(document).ready(function(){
     var lat_value = document.getElementById(lat).value;
     var lon_value = document.getElementById(lon).value;
     mymap.setView(new L.LatLng(lat_value, lon_value), 12);
-    markers[i].openPopup()
+    $("html, body").animate({
+      scrollTop: $("#mapid").offset().top }, {duration: 500,easing: "swing"});
+    return false;
    });
+  });
+
+  $("#name").on({
+    'click': function() { mymap.fitBounds(group.getBounds()); }
   });
 
   
