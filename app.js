@@ -43,8 +43,13 @@ app.use('/', states);
 // 			cities_objs:'data'
 // 		});
 // });
-app.get('/inside', function(req, res) {
-   res.render('inside', {title:"hehehe"});
+app.get('/contact', function(req, res) {
+   res.render('contact', {title:"Contact us"});
 });
-
+app.get('/people', function(req, res) {
+   res.render('people', {title:"People"});
+});
+app.get('/publication', function(req, res) {
+   res.render('publication', {title:"People"});
+});
 app.listen(4000)

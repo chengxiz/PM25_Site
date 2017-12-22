@@ -1,0 +1,1 @@
+$("#contact").addClass("active");

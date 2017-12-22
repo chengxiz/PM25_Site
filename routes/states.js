@@ -1,23 +1,18 @@
-console.log("wtffff");
-
 var express = require('express');
 var app = express();
 var router = express.Router();
-// installation to directory of node_modules: $ npm install hbs --save-dev 
-
-
-
-
 // to store states
-var state_list = [];
-var city_list = [];
-var state_name;
-var city_name;
+var state_list = [],
+	city_list = [],
+	state_name,
+	city_name;
+
 var MongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://localhost:27017';
 var COLLECTION_NAME = 'modis_db_data';
 var DOC_NAME = 'cities_US'
 var whereStr = "state";
+
 getStates = function (callback){	
 	MongoClient.connect(DB_CONN_STR, function(err, client){
 		var db = client.db(COLLECTION_NAME);
@@ -31,7 +26,7 @@ getStates = function (callback){
 	     	for (i = 0; i < objs_sorted.length; i++){
 		 		returnable_states[i] = {name: objs_sorted[i]};
 		 	}
-		 	client.close();	// remeber to put it before callback
+		 	client.close();	// remeber to close it before callback
 	        callback(returnable_states);        
 	    });
 	    
@@ -62,7 +57,6 @@ getCitiesByState = function(state, callback) {
 router.get('/', function(req, res) {
 	getStates(function(data){
 		state_list = data;
-        
         states_1 = data.slice(0,13);
         states_2 = data.slice(13,26);
         states_3 = data.slice(26,38);
@@ -81,17 +75,9 @@ router.get('/', function(req, res) {
 router.get('/state/:name', function(req, res) {	
 	getCitiesByState(state_name, function(data){
 		try {
-		    // console.log(data[0].city);
-		    // city_name = data[0].city
 			city_list = data;
-			
-			// var first = city_list[0]["city"];
-			// console.log(first)
 			state_name = req.params.name;
-			//console.log("hehe"+city_name);
-				console.log(city_list.length);
 				console.log(city_list);
-				console.log('mf');			
 			if (city_list.length > 0) {
 
 				res.render('state', {

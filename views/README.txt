@@ -1,13 +1,19 @@
-
 TITLE: 
-Closest - Fully Responsive Free HTML5 template
+PM25: visualization of PM2.5
 
 AUTHOR:
-DESIGNED & DEVELOPED by FREEHTML5.co
+CHENGXI ZHU
 
-Website: http://freehtml5.co/
-Twitter: http://twitter.com/fh5co
-Facebook: http://facebook.com/fh5co
+HTML5 TEMPLATE:
+	TITLE: 
+	Closest - Fully Responsive Free HTML5 template
+
+	AUTHOR:
+	DESIGNED & DEVELOPED by FREEHTML5.co
+
+	Website: http://freehtml5.co/
+	Twitter: http://twitter.com/fh5co
+	Facebook: http://facebook.com/fh5co
 
 
 CREDITS:
@@ -41,3 +47,13 @@ https://github.com/imakewebthings/waypoints/blog/master/licenses.txt
 
 Demo Images:
 http://unsplash.com
+
+Node.js:
+https://nodejs.org/
+
+Leaflet:
+http://leafletjs.com/
+
+MongoDB:
+https://www.mongodb.com
+

@@ -51,19 +51,18 @@ $(document).ready(function(){
       id: 'mapbox.light'
     }
   );
-  var baseLayers = {
-    "Grayscale": grayscale,
-    "Satellite": satellite
-  };
   var mymap = L.map('mapid',{
     zoom : 7,
     center : [center_lat, center_lon],
-    layers : grayscale
-  });
+    layers : [grayscale]
+  });  
+  function onClick(e) {
+    mymap.setView(this.getLatLng(), 12);
+  }
   for (i = 0; i < cities.length; i++){
     var m =  L.marker([lat[i], lon[i]],{
       title :cities[i]
-    });
+    }).on('click', onClick);
     markergroup.push(m);
 
     m.bindTooltip(cities[i], 
@@ -87,12 +86,22 @@ $(document).ready(function(){
                           '</p>'
                         ;
     console.log(popupContent);
-    m.addTo(mymap);
+    //m.addTo(mymap);
     m.bindPopup(popupContent);
   }
+  var citiesLayer = L.layerGroup(markergroup);
+  var baseLayers = {
+    "Grayscale": grayscale,
+    "Satellite": satellite
+  };
+  var overlayMaps = {
+    "Cities": citiesLayer
+  };
 
-  
-  L.control.layers(baseLayers).addTo(mymap);
+
+  mymap.addLayer(citiesLayer);
+
+  L.control.layers(baseLayers, overlayMaps).addTo(mymap);
 
   var group = new L.featureGroup(markergroup);
   mymap.fitBounds(group.getBounds());
@@ -105,6 +114,7 @@ $(document).ready(function(){
     var lat_value = document.getElementById(lat).value;
     var lon_value = document.getElementById(lon).value;
     mymap.setView(new L.LatLng(lat_value, lon_value), 12);
+    // return the page back to #mapid at center
     $("html, body").animate({
       scrollTop: $("#mapid").offset().top }, {duration: 500,easing: "swing"});
     return false;
