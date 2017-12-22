@@ -116,7 +116,7 @@ $(document).ready(function(){
     mymap.setView(new L.LatLng(lat_value, lon_value), 12);
     // return the page back to #mapid at center
     $("html, body").animate({
-      scrollTop: $("#mapid").offset().top }, {duration: 500,easing: "swing"});
+      scrollTop: $("#namebar").offset().top }, {duration: 500,easing: "swing"});
     return false;
    });
   });
