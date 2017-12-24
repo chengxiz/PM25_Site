@@ -114,7 +114,7 @@ $(document).ready(function(){
     var lat_value = document.getElementById(lat).value;
     var lon_value = document.getElementById(lon).value;
     mymap.setView(new L.LatLng(lat_value, lon_value), 12);
-    // return the page back to #mapid at center
+    // animate the page view back to #namebar at center
     $("html, body").animate({
       scrollTop: $("#namebar").offset().top }, {duration: 500,easing: "swing"});
     return false;
