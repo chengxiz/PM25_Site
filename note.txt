@@ -1,0 +1,12 @@
+use modis_db_data
+db.createUser({user:"chengxiz", pwd:"Bibby100!", roles:[{role:"readWrite",db:"modis_db_data"}]})use modis_db_data
+
+ssh -i "PM25_chengxi.pem" ec2-user@ec2-18-217-147-167.us-east-2.compute.amazonaws.com
+
+chmod 400 /home/chengxi/Node/PM25_Site-master/PM25_chengxi.pem
+
+// safe copy
+scp -i /home/chengxi/Node/PM25_Site-master/PM25_chengxi.pem /data/citiesUS.json 
+
+ec2-user@ec2-18-217-147-167.us-east-2.compute.amazonaws.com:~/data/
+mongoimport --db modis_db_data --collection cities_US -u chengxiz -p Bibby100! --drop --file ~/data/citiesUS.json --jsonArray
