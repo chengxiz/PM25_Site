@@ -1,3 +1,4 @@
+var Connection = require('mongodb-connection-model');
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -8,28 +9,43 @@ var state_list = [],
 	city_name;
 
 var MongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://localhost:27017';
+var DB_CONN_STR = 'mongodb://18.217.147.167:27017';
 var COLLECTION_NAME = 'modis_db_data';
 var DOC_NAME = 'cities_US'
 var whereStr = "state";
+var connect = Connection.connect;
+const options = {
+  hostname: 'localhost',
+  port: 27017,
+  ssh_tunnel: 'IDENTITY_FILE',
+  ssh_tunnel_hostname: 'ec2-18-217-147-167.us-east-2.compute.amazonaws.com',
+  ssh_tunnel_username: 'ec2-user',
+  ssh_tunnel_identity_file: ['/home/chengxi/Node/PM25_Site-master/PM25_chengxi.pem']
+};
+ 
+connect(options).on('status', (evt) => console.log('status:', evt));
 
 getStates = function (callback){	
-	MongoClient.connect(DB_CONN_STR, function(err, client){
+	connect(options, (err, client) =>{
+		if (err) {
+    		return console.log(err);
+  		}
 		var db = client.db(COLLECTION_NAME);
-		var collection = db.collection(DOC_NAME);		
-		console.log("conncect successfully!");
-	    collection.distinct(whereStr,  function(err, objs){
-	        var returnable_states;
-	        if (err) throw err;        
-	        returnable_states = [];
-	        var objs_sorted = objs.sort()
-	     	for (i = 0; i < objs_sorted.length; i++){
-		 		returnable_states[i] = {name: objs_sorted[i]};
-		 	}
-		 	client.close();	// remeber to close it before callback
-	        callback(returnable_states);        
-	    });
-	    
+		db.authenticate('chengxiz', 'Bibby100!', function(err, result){
+			var collection = result.collection(DOC_NAME);		
+			console.log("conncect successfully!");
+		    collection.distinct(whereStr,  function(err, objs){
+		        var returnable_states;
+		        if (err) throw err;        
+		        returnable_states = [];
+		        var objs_sorted = objs.sort()
+		     	for (i = 0; i < objs_sorted.length; i++){
+			 		returnable_states[i] = {name: objs_sorted[i]};
+			 	}
+			 	client.close();	// remeber to close it before callback
+		        callback(returnable_states);        
+		    });
+		});	    
 	});
 }
 getCitiesByState = function(state, callback) {
